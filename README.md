@@ -1,6 +1,11 @@
 # configbackup
 A tool for automated device config backup
 
+## Install required python packages
+`pip install pexpect requests tftpy scp`
+
+## Basic usage
+run `python configbackup.py --help`
 ```
 Usage:
  configbackup.py --ftp -s <host> -u [username] -p [password] -f <file> -d <backup_dir> -c [custom_folder]
