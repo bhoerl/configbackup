@@ -1,5 +1,6 @@
 # configbackup
-A tool for automated device config backup
+A tool for automated device config backup<br>
+(Python Version 2.x required)
 
 ## Install required python packages
 `pip install pexpect requests tftpy scp`
