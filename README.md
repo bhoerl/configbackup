@@ -6,7 +6,7 @@ A tool for automated device config backup<br>
 `pip install pexpect requests tftpy scp`
 
 ## Basic usage
-run `python check_coin_price.py --help`
+run `python configbackup.py --help`
 ```
 Usage:
  configbackup.py --ftp -s <host> -u [username] -p [password] -f <file> -d <backup_dir> -c [custom_folder]
