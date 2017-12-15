@@ -2,7 +2,10 @@
 A tool for automated device config backup<br>
 (Python Version 2.x required)
 
-## Install required python packages
+## Required system commands
+For the scp backup method please be sure to have scp and sshpass available on your system.
+
+## Required python modules
 `pip install pexpect requests tftpy scp`
 
 ## Basic usage
@@ -38,7 +41,7 @@ Options:
   --telnet-ios      telnet connect for cisco ios (show startup-config)
   --telnet-pix      telnet connect for cisco pix (show startup-config)
   --ironport        ssh connect and scp for cisco ironport (wsa/esa)
-  -d BACKUPDIR      specify main backup directory
+  -d BACKUPDIR      specify backup directory
   -s HOSTNAME       hostname or ip address
   -u USER           username
   -p PASSWORD       password
