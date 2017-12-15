@@ -18,6 +18,8 @@ import ftplib
 import requests
 import tftpy
 import paramiko
+import shlex
+import subprocess
 
 from optparse import OptionParser
 from scp import SCPClient
@@ -130,18 +132,17 @@ def tftp_command (hostname, newfile, lastfile):
 
 def scp_command (hostname, user, password, newfile, filename):
 
-    host_backup_dir = os.path.dirname(newfile)
+    dir = os.path.dirname(newfile)
 
-    if not os.path.exists(host_backup_dir):
-        os.makedirs(host_backup_dir)
+    if not os.path.exists(dir):
+        os.makedirs(dir)
 
-    ssh = paramiko.SSHClient()
-    ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(hostname, username=user, password=password)
-    scpclient = SCPClient(ssh.get_transport())
-    scpclient.get(filename, newfile)
-    ssh.close()
+    sftpcall = subprocess.Popen(shlex.split("sshpass -p "+ password + " scp -q -o PreferredAuthentications=password " + user + "@" + hostname + ":" + filename + " " + newfile))
+    out, err = sftpcall.communicate()
+
+    if sftpcall.returncode != 0:
+        print "scp Error " + str(sftpcall.returncode)
+        sys.exit(2)
 
 
 def ssh_command (hostname, user, password, enable, platform):
@@ -397,7 +398,7 @@ def backupconfig (device_config, newfile):
 
 def remove_changed (newfile, lastfile, backup_path):
 
-    latest_backup_name = "DateiVorher.cfg"
+    latest_backup_name = "latest.cfg"
 
    # if old backup exists compare it with the new file
     if os.path.isfile(lastfile):
@@ -478,7 +479,7 @@ def main ():
     # backup parameters
     parser.add_option("-d",
                   dest="backupdir",
-                  help="specify main backup directory")
+                  help="specify backup directory")
     parser.add_option("-s",
                   dest="hostname",
                   help="hostname or ip address")
